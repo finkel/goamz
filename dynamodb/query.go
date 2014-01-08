@@ -26,11 +26,13 @@ func (t *Table) LimitedQuery(attributeComparisons []AttributeComparison, limit i
 	return runQuery(q, t)
 }
 
-func (t *Table) LimitedQueryOnIndex(attributeComparisons []AttributeComparison, indexName string, limit int64) ([]map[string]*Attribute, error) {
+func (t *Table) LimitedQueryOnIndex(attributeComparisons []AttributeComparison, indexName string, limit int64, ascending bool) ([]map[string]*Attribute, error) {
 	q := NewQuery(t)
 	q.AddKeyConditions(attributeComparisons)
 	q.AddIndex(indexName)
 	q.AddLimit(limit)
+	q.ScanIndexForward(ascending)
+
 	return runQuery(q, t)
 }
 
